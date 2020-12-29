@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+      <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+      <link rel="stylesheet" href="/stylesheets/style.css">
+      <script src="/javascripts/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <form id="username-form">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Get</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" id="users">
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#username-form').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: {
+                    username: $('#username').val()
+                },
+                success: function(data) {
+                    var users = data
+                    var innerHtml = '';
+                    data.forEach(user => {
+                        innerHtml += '<li class="list-group-item"><img src="' + user.profile_pic_url + '"><strong>' + user.username + '</strong></li>'
+                    })
+                    var html = '<ul class="list-group">' + innerHtml + '</ul>'
+                    $('#users').html(html);
+                }
+            })
+        })
+    </script>
+  </body>
+</html>
